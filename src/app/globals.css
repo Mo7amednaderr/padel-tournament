@@ -11,11 +11,10 @@
   --brand: #ff6a00; /* orange */
 }
 
-html, body {
-  height: 100%;
-}
+html, body { height: 100%; }
 
 body {
+  margin: 0;
   background:
     radial-gradient(900px 500px at 20% 0%, rgba(255,106,0,0.18), transparent 60%),
     radial-gradient(900px 500px at 80% 20%, rgba(255,106,0,0.10), transparent 60%),
@@ -23,36 +22,56 @@ body {
   color: var(--text);
 }
 
-/* Components */
-@layer components {
-  .container-page { @apply max-w-6xl mx-auto px-5; }
-  @media (min-width: 768px) {
-    .container-page { @apply px-8; }
-  }
-
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    @apply rounded-2xl p-6 md:p-8 shadow-lg backdrop-blur;
-  }
-
-  .muted { color: var(--muted); }
-
-  .btn {
-    @apply inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold transition;
-  }
-
-  .btn-primary {
-    background: var(--brand);
-    color: #0b0b0f;
-  }
-  .btn-primary:hover { opacity: 0.9; }
-
-  .btn-ghost { border: 1px solid var(--border); }
-  .btn-ghost:hover { background: rgba(255,255,255,0.05); }
-
-  .navlink { @apply text-sm font-medium; color: rgba(255,255,255,0.8); }
-  .navlink:hover { color: rgba(255,255,255,1); }
-
-  .navlink-active { color: rgba(255,255,255,1); }
+/* بدل @apply — CSS عادي */
+.container-page {
+  max-width: 72rem; /* ~ max-w-6xl */
+  margin: 0 auto;
+  padding-left: 1.25rem; /* ~ px-5 */
+  padding-right: 1.25rem;
 }
+@media (min-width: 768px) {
+  .container-page { padding-left: 2rem; padding-right: 2rem; } /* ~ md:px-8 */
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem; /* قريب من rounded-2xl */
+  padding: 1.5rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  backdrop-filter: blur(14px);
+}
+@media (min-width: 768px) {
+  .card { padding: 2rem; }
+}
+
+.muted { color: var(--muted); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.9rem;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  transition: 0.2s ease;
+  text-decoration: none;
+}
+.btn-primary { background: var(--brand); color: #0b0b0f; }
+.btn-primary:hover { opacity: .9; }
+
+.btn-ghost {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+}
+.btn-ghost:hover { background: rgba(255,255,255,.06); }
+
+.navlink {
+  font-size: .875rem;
+  font-weight: 500;
+  color: rgba(255,255,255,.8);
+  text-decoration: none;
+}
+.navlink:hover { color: #fff; }
+.navlink-active { color: #fff; }

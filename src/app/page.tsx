@@ -1,15 +1,21 @@
+import Link from 'next/link'
+import { Card, CardBody } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
+
 export default function Home() {
   return (
-    <main className="min-h-screen flex items-center justify-center p-6">
-      <div className="max-w-md w-full border rounded-xl p-6 space-y-3">
-        <h1 className="text-2xl font-semibold">Padel Tournament</h1>
-        <p className="opacity-80">Welcome 👋</p>
+    <Card>
+      <CardBody className="space-y-4">
+        <h1 className="text-3xl font-bold">Padel Tournament Platform</h1>
+        <p className="opacity-80">
+          Create account, join tournaments, and follow live updates.
+        </p>
 
         <div className="flex gap-3">
-          <a className="underline" href="/auth/sign-up">Sign up</a>
-          <a className="underline" href="/auth/sign-in">Sign in</a>
+          <Link href="/auth/sign-up"><Button>Create account</Button></Link>
+          <Link href="/auth/sign-in"><Button variant="secondary">Sign in</Button></Link>
         </div>
-      </div>
-    </main>
+      </CardBody>
+    </Card>
   )
 }

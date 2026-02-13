@@ -46,7 +46,7 @@ export default function SignUpPage() {
 
     if (profileError) return setErrorMsg(`Profile error: ${profileError.message}`)
 
-    router.push('/tournaments')
+    router.push('/dashboard')
   }
 
   return (

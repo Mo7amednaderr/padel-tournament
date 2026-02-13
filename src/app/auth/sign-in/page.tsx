@@ -4,9 +4,6 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
-import { Card, CardBody } from '@/components/ui/Card'
-import { Input } from '@/components/ui/Input'
-import { Button } from '@/components/ui/Button'
 
 export default function SignInPage() {
   const router = useRouter()
@@ -17,35 +14,72 @@ export default function SignInPage() {
   const signIn = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+
     const { error } = await supabase.auth.signInWithPassword({ email, password })
+
     setLoading(false)
     if (error) return alert(error.message)
+
     router.push('/dashboard')
   }
 
   return (
-    <div className="min-h-[70vh] grid place-items-center">
-      <Card className="w-full max-w-md">
-        <CardBody className="space-y-6">
-          <div className="space-y-2">
-            <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
-            <p className="text-sm text-[rgb(var(--muted))]">Welcome back. Continue to your dashboard.</p>
-          </div>
+    <main className="container-page py-12">
+      <div className="min-h-[70vh] grid place-items-center">
+        <div className="w-full max-w-md card">
+          <h1 className="text-3xl font-extrabold tracking-tight">Welcome Back</h1>
+          <p className="mt-2 muted">Sign in to your account to continue.</p>
 
-          <form onSubmit={signIn} className="space-y-4">
-            <Input label="EMAIL" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" />
-            <Input label="PASSWORD" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
+          <form onSubmit={signIn} className="mt-8 space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-white/80">Email</label>
+              <input
+                className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none
+                           focus:border-[color:var(--brand)] focus:ring-2 focus:ring-[color:var(--brand)]/20"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@email.com"
+                required
+              />
+            </div>
 
-            <Button className="w-full" disabled={loading}>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-white/80">Password</label>
+                <button
+                  type="button"
+                  className="text-sm text-white/60 hover:text-white underline underline-offset-4"
+                  onClick={() => alert('Later: reset password')}
+                >
+                  Forgot password?
+                </button>
+              </div>
+
+              <input
+                className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none
+                           focus:border-[color:var(--brand)] focus:ring-2 focus:ring-[color:var(--brand)]/20"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+              />
+            </div>
+
+            <button className="btn btn-primary w-full" disabled={loading}>
               {loading ? 'Signing in…' : 'Sign in'}
-            </Button>
+            </button>
           </form>
 
-          <p className="text-sm text-[rgb(var(--muted))]">
-            No account? <Link className="text-[rgb(var(--text))] underline underline-offset-4" href="/auth/sign-up">Create one</Link>
+          <p className="mt-6 text-sm muted text-center">
+            Don&apos;t have an account?{' '}
+            <Link className="text-white underline underline-offset-4 hover:text-white/90" href="/auth/sign-up">
+              Sign up
+            </Link>
           </p>
-        </CardBody>
-      </Card>
-    </div>
+        </div>
+      </div>
+    </main>
   )
 }

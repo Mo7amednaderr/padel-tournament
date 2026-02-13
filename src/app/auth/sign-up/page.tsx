@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
@@ -37,39 +38,96 @@ export default function SignUpPage() {
       return setErrorMsg('User not created. Try again.')
     }
 
-    const { error: profileError } = await supabase.from('profiles').upsert({
-      user_id: userId,
-      full_name: fullName,
-      phone,
-    })
-    setLoading(false)
+    const { error: profileError } = await supabase.from('profiles').upsert(
+      {
+        user_id: userId,
+        full_name: fullName,
+        phone,
+      },
+      { onConflict: 'user_id' } // مهم علشان upsert يشتغل صح
+    )
 
+    setLoading(false)
     if (profileError) return setErrorMsg(`Profile error: ${profileError.message}`)
 
     router.push('/dashboard')
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <form onSubmit={signUp} className="w-full max-w-md border rounded-xl p-6 space-y-4">
-        <h1 className="text-2xl font-semibold">Create account</h1>
+    <main className="container-page py-12">
+      <div className="min-h-[70vh] grid place-items-center">
+        <div className="w-full max-w-md card">
+          <h1 className="text-3xl font-extrabold tracking-tight">Create Account</h1>
+          <p className="mt-2 muted">Join tournaments, track ranking, and more.</p>
 
-        <input className="w-full border rounded-lg p-2" placeholder="Full name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
-        <input className="w-full border rounded-lg p-2" placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <form onSubmit={signUp} className="mt-8 space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-white/80">Full name</label>
+              <input
+                className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none
+                           focus:border-[color:var(--brand)] focus:ring-2 focus:ring-[color:var(--brand)]/20"
+                placeholder="Mohamed Nader"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+            </div>
 
-        <input className="w-full border rounded-lg p-2" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input className="w-full border rounded-lg p-2" type="password" placeholder="Password (min 6)" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-white/80">Phone</label>
+              <input
+                className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none
+                           focus:border-[color:var(--brand)] focus:ring-2 focus:ring-[color:var(--brand)]/20"
+                placeholder="01xxxxxxxxx"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
 
-        {errorMsg ? <p className="text-sm text-red-600">{errorMsg}</p> : null}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-white/80">Email</label>
+              <input
+                className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none
+                           focus:border-[color:var(--brand)] focus:ring-2 focus:ring-[color:var(--brand)]/20"
+                type="email"
+                placeholder="you@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
 
-        <button className="w-full rounded-lg bg-black text-white p-2 disabled:opacity-60" disabled={loading}>
-          {loading ? 'Creating...' : 'Create account'}
-        </button>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-white/80">Password</label>
+              <input
+                className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none
+                           focus:border-[color:var(--brand)] focus:ring-2 focus:ring-[color:var(--brand)]/20"
+                type="password"
+                placeholder="Min 6 chars"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
 
-        <p className="text-sm">
-          Have account? <a className="underline" href="/auth/sign-in">Sign in</a>
-        </p>
-      </form>
-    </div>
+            {errorMsg ? (
+              <p className="text-sm text-red-400 border border-red-500/20 bg-red-500/10 rounded-xl px-4 py-3">
+                {errorMsg}
+              </p>
+            ) : null}
+
+            <button className="btn btn-primary w-full" disabled={loading}>
+              {loading ? 'Creating…' : 'Create account'}
+            </button>
+          </form>
+
+          <p className="mt-6 text-sm muted text-center">
+            Already have an account?{' '}
+            <Link className="text-white underline underline-offset-4 hover:text-white/90" href="/auth/sign-in">
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </div>
+    </main>
   )
 }

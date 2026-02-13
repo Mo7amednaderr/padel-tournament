@@ -2,55 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* بديل @apply bg-black text-white */
+/* ===== Theme (CIRQL-ish) ===== */
+:root {
+  --bg: #0b0b0f;
+  --card: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.10);
+  --text: #f4f4f5;
+  --muted: rgba(244, 244, 245, 0.70);
+  --brand: #ff6a00; /* orange */
+}
+
+html,
 body {
-  background: #000;
-  color: #fff;
+  height: 100%;
 }
 
-/* .container-page => max-w-5xl mx-auto px-6 py-12 */
-.container-page {
-  max-width: 64rem; /* 5xl */
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem; /* px-6 */
-  padding-right: 1.5rem;
-  padding-top: 3rem; /* py-12 */
-  padding-bottom: 3rem;
+body {
+  background:
+    radial-gradient(900px 500px at 20% 0%, rgba(255, 106, 0, 0.18), transparent 60%),
+    radial-gradient(900px 500px at 80% 20%, rgba(255, 106, 0, 0.10), transparent 60%),
+    var(--bg);
+  color: var(--text);
 }
 
-/* .card => bg-zinc-900 border border-zinc-800 rounded-xl p-8 transition duration-300 hover:border-green-500 hover:shadow-lg */
-.card {
-  background: #18181b; /* zinc-900 */
-  border: 1px solid #27272a; /* zinc-800 */
-  border-radius: 0.75rem; /* xl */
-  padding: 2rem; /* p-8 */
-  transition: all 300ms;
-}
+/* ===== Reusable UI classes ===== */
+@layer components {
+  /* Layout container */
+  .container-page {
+    @apply max-w-6xl mx-auto px-5 md:px-8;
+  }
 
-.card:hover {
-  border-color: #22c55e; /* green-500 */
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.35), 0 4px 6px rgba(0, 0, 0, 0.25); /* shadow-lg قريب */
-}
+  /* Card */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    @apply rounded-2xl p-6 md:p-8 shadow-lg backdrop-blur;
+  }
 
-/* .title-main => text-4xl font-bold mb-10 tracking-tight */
-.title-main {
-  font-size: 2.25rem; /* 4xl */
-  line-height: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 2.5rem; /* mb-10 */
-  letter-spacing: -0.025em; /* tracking-tight */
-}
+  /* Muted text */
+  .muted {
+    color: var(--muted);
+  }
 
-/* .section-title => text-2xl font-semibold mb-2 */
-.section-title {
-  font-size: 1.5rem; /* 2xl */
-  line-height: 2rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem; /* mb-2 */
-}
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold transition;
+  }
 
-/* .muted => text-zinc-400 */
-.muted {
-  color: #a1a1aa; /* zinc-400 */
+  .btn-primary {
+    background: var(--brand);
+    color: #0b0b0f;
+    @apply hover:opacity-90;
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--border);
+    @apply hover:bg-white/5;
+  }
+
+  /* Nav links - pill style */
+  .navlink {
+    @apply px-3 py-2 rounded-full text-sm font-medium text-white/70 hover:text-white hover:bg-white/5 transition;
+  }
+
+  .navlink-active {
+    @apply bg-white/10 text-white;
+  }
 }

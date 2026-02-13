@@ -1,21 +1,21 @@
 import Link from 'next/link'
-import { Card, CardBody } from '@/components/ui/Card'
-import { Button } from '@/components/ui/Button'
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <Card>
-      <CardBody className="space-y-4">
-        <h1 className="text-3xl font-bold">Padel Tournament Platform</h1>
-        <p className="opacity-80">
-          Create account, join tournaments, and follow live updates.
+    <main className="container-page py-14">
+      <section className="card">
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
+          Where Padel <span className="text-[color:var(--brand)]">Meets</span> Structure
+        </h1>
+        <p className="mt-4 muted max-w-2xl">
+          Create account, join tournaments, and follow live updates — all in one place.
         </p>
 
-        <div className="flex gap-3">
-          <Link href="/auth/sign-up"><Button>Create account</Button></Link>
-          <Link href="/auth/sign-in"><Button variant="secondary">Sign in</Button></Link>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link className="btn btn-primary" href="/auth/sign-up">Get started</Link>
+          <Link className="btn btn-ghost" href="/tournaments">Browse tournaments</Link>
         </div>
-      </CardBody>
-    </Card>
+      </section>
+    </main>
   )
 }

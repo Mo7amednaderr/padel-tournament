@@ -2,26 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+/* بديل @apply bg-black text-white */
 body {
-  @apply bg-black text-white;
+  background: #000;
+  color: #fff;
 }
 
+/* .container-page => max-w-5xl mx-auto px-6 py-12 */
 .container-page {
-  @apply max-w-5xl mx-auto px-6 py-12;
+  max-width: 64rem; /* 5xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem; /* px-6 */
+  padding-right: 1.5rem;
+  padding-top: 3rem; /* py-12 */
+  padding-bottom: 3rem;
 }
 
+/* .card => bg-zinc-900 border border-zinc-800 rounded-xl p-8 transition duration-300 hover:border-green-500 hover:shadow-lg */
 .card {
-  @apply bg-zinc-900 border border-zinc-800 rounded-xl p-8 transition duration-300 hover:border-green-500 hover:shadow-lg;
+  background: #18181b; /* zinc-900 */
+  border: 1px solid #27272a; /* zinc-800 */
+  border-radius: 0.75rem; /* xl */
+  padding: 2rem; /* p-8 */
+  transition: all 300ms;
 }
 
+.card:hover {
+  border-color: #22c55e; /* green-500 */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.35), 0 4px 6px rgba(0, 0, 0, 0.25); /* shadow-lg قريب */
+}
+
+/* .title-main => text-4xl font-bold mb-10 tracking-tight */
 .title-main {
-  @apply text-4xl font-bold mb-10 tracking-tight;
+  font-size: 2.25rem; /* 4xl */
+  line-height: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem; /* mb-10 */
+  letter-spacing: -0.025em; /* tracking-tight */
 }
 
+/* .section-title => text-2xl font-semibold mb-2 */
 .section-title {
-  @apply text-2xl font-semibold mb-2;
+  font-size: 1.5rem; /* 2xl */
+  line-height: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem; /* mb-2 */
 }
 
+/* .muted => text-zinc-400 */
 .muted {
-  @apply text-zinc-400;
+  color: #a1a1aa; /* zinc-400 */
 }

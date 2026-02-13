@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== Theme (CIRQL-ish) ===== */
 :root {
   --bg: #0b0b0f;
   --card: rgba(255, 255, 255, 0.06);
@@ -12,39 +11,33 @@
   --brand: #ff6a00; /* orange */
 }
 
-html,
-body {
+html, body {
   height: 100%;
 }
 
 body {
   background:
-    radial-gradient(900px 500px at 20% 0%, rgba(255, 106, 0, 0.18), transparent 60%),
-    radial-gradient(900px 500px at 80% 20%, rgba(255, 106, 0, 0.10), transparent 60%),
+    radial-gradient(900px 500px at 20% 0%, rgba(255,106,0,0.18), transparent 60%),
+    radial-gradient(900px 500px at 80% 20%, rgba(255,106,0,0.10), transparent 60%),
     var(--bg);
   color: var(--text);
 }
 
-/* ===== Reusable UI classes ===== */
+/* Components */
 @layer components {
-  /* Layout container */
-  .container-page {
-    @apply max-w-6xl mx-auto px-5 md:px-8;
+  .container-page { @apply max-w-6xl mx-auto px-5; }
+  @media (min-width: 768px) {
+    .container-page { @apply px-8; }
   }
 
-  /* Card */
   .card {
     background: var(--card);
     border: 1px solid var(--border);
     @apply rounded-2xl p-6 md:p-8 shadow-lg backdrop-blur;
   }
 
-  /* Muted text */
-  .muted {
-    color: var(--muted);
-  }
+  .muted { color: var(--muted); }
 
-  /* Buttons */
   .btn {
     @apply inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold transition;
   }
@@ -52,20 +45,14 @@ body {
   .btn-primary {
     background: var(--brand);
     color: #0b0b0f;
-    @apply hover:opacity-90;
   }
+  .btn-primary:hover { opacity: 0.9; }
 
-  .btn-ghost {
-    border: 1px solid var(--border);
-    @apply hover:bg-white/5;
-  }
+  .btn-ghost { border: 1px solid var(--border); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.05); }
 
-  /* Nav links - pill style */
-  .navlink {
-    @apply px-3 py-2 rounded-full text-sm font-medium text-white/70 hover:text-white hover:bg-white/5 transition;
-  }
+  .navlink { @apply text-sm font-medium; color: rgba(255,255,255,0.8); }
+  .navlink:hover { color: rgba(255,255,255,1); }
 
-  .navlink-active {
-    @apply bg-white/10 text-white;
-  }
+  .navlink-active { color: rgba(255,255,255,1); }
 }

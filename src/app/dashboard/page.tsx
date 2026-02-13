@@ -1,71 +1,67 @@
 'use client'
 
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
-export default function DashboardPage() {
+export default function Dashboard() {
   const router = useRouter()
-  const [loading, setLoading] = useState(true)
-  const [name, setName] = useState<string>('')
+  const [email, setEmail] = useState<string | null>(null)
 
   useEffect(() => {
-    const run = async () => {
+    const getUser = async () => {
       const { data } = await supabase.auth.getUser()
       if (!data.user) {
-        router.replace('/auth/sign-in')
-        return
+        router.push('/auth/sign-in')
+      } else {
+        setEmail(data.user.email ?? null)
+
       }
-
-      // (اختياري) نجيب الاسم من profiles
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('full_name')
-        .eq('user_id', data.user.id)
-        .single()
-
-      setName(profile?.full_name ?? '')
-      setLoading(false)
     }
-    run()
+    getUser()
   }, [router])
 
-  const logout = async () => {
+  const signOut = async () => {
     await supabase.auth.signOut()
-    router.replace('/auth/sign-in')
+    router.push('/')
   }
 
-  if (loading) return <div className="p-6">Loading...</div>
-
   return (
-    <div className="min-h-screen p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Dashboard</h1>
-          {name ? <p className="opacity-80">Welcome, {name}</p> : null}
-        </div>
-
-        <button onClick={logout} className="border rounded-lg px-4 py-2">
+    <div className="container-page">
+      <div className="flex justify-between items-center mb-10">
+        <h1 className="title-main">Dashboard</h1>
+        <button
+          onClick={signOut}
+          className="text-sm text-zinc-400 hover:text-white transition"
+        >
           Sign out
         </button>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <Link href="/tournaments" className="border rounded-xl p-5 hover:bg-gray-50">
-          <h2 className="text-xl font-semibold">Tournaments</h2>
-          <p className="opacity-80">Browse & join tournaments</p>
-        </Link>
+      <p className="mb-8 text-zinc-400">
+        Welcome, {email}
+      </p>
 
-        <div className="border rounded-xl p-5 opacity-60">
-          <h2 className="text-xl font-semibold">Rankings</h2>
-          <p className="opacity-80">Coming soon</p>
+      <div className="grid md:grid-cols-3 gap-6">
+
+        <div
+          onClick={() => router.push('/tournaments')}
+          className="card cursor-pointer"
+        >
+          <h2 className="section-title">Tournaments</h2>
+          <p className="muted">Browse & join tournaments</p>
         </div>
 
-        <div className="border rounded-xl p-5 opacity-60">
-          <h2 className="text-xl font-semibold">Live Matches</h2>
-          <p className="opacity-80">Coming soon</p>
+        <div className="card opacity-60">
+          <h2 className="section-title">Rankings</h2>
+          <p className="muted">Coming soon</p>
         </div>
+
+        <div className="card opacity-60">
+          <h2 className="section-title">Live Matches</h2>
+          <p className="muted">Coming soon</p>
+        </div>
+
       </div>
     </div>
   )
